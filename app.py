@@ -35,8 +35,8 @@ class Todo(db.Model):
 # if db not created, create it
 def create_database():
     if not path.exists('./instance/test.db'):
-        create_database(DATABASE_URL)
         with app.app_context():
+            create_database(DATABASE_URL)
             db.create_all()
         print('Created Database!')
 
