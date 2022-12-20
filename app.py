@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -7,7 +6,6 @@ from os import path
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
-# from .env import *
 
 app = Flask(__name__)
 
@@ -17,7 +15,7 @@ load_dotenv(dotenv_path)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
 
 db = SQLAlchemy(app)
 
@@ -33,14 +31,14 @@ class Todo(db.Model):
         return '<Task %r>' % self.id
 
 # if db not created, create it
-def create_database():
+def create_database(app):
     if not path.exists('./instance/test.db'):
         with app.app_context():
-            create_database(DATABASE_URL)
+            # create_database(DATABASE_URL)
             db.create_all()
         print('Created Database!')
 
-create_database()
+create_database(app)
 
 
 #---------routes---------
